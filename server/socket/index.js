@@ -12,7 +12,11 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server,{
     cors : {
+<<<<<<< HEAD
         origin : ["https://classy-chat-frontend.vercel.app"],
+=======
+        origin : process.env.PRODUCTION_URL,
+>>>>>>> origin/main
         credentials : true
     }
 })

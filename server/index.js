@@ -9,6 +9,7 @@ const { app, server } = require('./socket/index')
 // const app = express()
 app.use(cors({
     origin : ["https://classy-chat-frontend.vercel.app"],
+    methods: ["POST", "GET", "PUT"],
     credentials : true
 }))
 app.use(express.json())

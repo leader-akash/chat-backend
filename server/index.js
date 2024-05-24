@@ -7,12 +7,14 @@ const cookiesParser = require('cookie-parser')
 const { app, server } = require('./socket/index')
 
 // const app = express()
+
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 app.use(cors({
     origin : ["https://classy-chat-frontend.vercel.app"],
     methods: ["POST", "GET", "PUT"],
     credentials : true
 }))
-app.use(express.json())
 app.use(cookiesParser())
 
 const PORT = process.env.PORT || 8080

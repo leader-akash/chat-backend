@@ -5,11 +5,14 @@ const connectDB = require('./config/connectDB')
 const router = require('./routes/index')
 const cookiesParser = require('cookie-parser')
 const { app, server } = require('./socket/index')
+const allowCorsError = require('./cors')
 
 // const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use(allowCorsError)
 
 // app.use(cors({
 //     origin: ["https://classy-chat-frontend.vercel.app"],
@@ -17,28 +20,6 @@ app.use(express.urlencoded({ extended: true }))
 //     credentials: true,
 //     allowedHeaders: 'Content-Type,Authorization',
 // }))
-
-const allowCors = fn => async (req, res) => {
-    res.setHeader('Access-Control-Allow-Credentials', true)
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    // another common pattern
-    // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-    )
-    if (req.method === 'OPTIONS') {
-        res.status(200).end()
-        return
-    }
-    return await fn(req, res)
-}
-
-// Apply allowCors as middleware
-app.use(allowCors((req, res, next) => {
-    next();
-}));
 
 app.use(cookiesParser())
 

@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken')
 const UserModel = require('../models/UserModel')
 
 const getUserDetailsFromToken = async(token)=>{
-    
     if(!token){
         return {
             message : "session out",

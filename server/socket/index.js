@@ -28,7 +28,6 @@ io.on('connection',async(socket)=>{
     console.log("connect User ", socket.id)
 
     const token = socket.handshake.auth.token 
-
     //current user details 
     const user = await getUserDetailsFromToken(token)
 

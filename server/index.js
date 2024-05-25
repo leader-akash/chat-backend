@@ -9,41 +9,51 @@ const { app, server } = require('./socket/index')
 // const app = express()
 
 app.use(express.json())
-
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }))
 
 app.use(cors({
-    origin : ["https://classy-chat-frontend.vercel.app"],
+    origin: ["https://classy-chat-frontend.vercel.app"],
     methods: ["POST", "GET", "PUT"],
-    credentials : true
+    credentials: true
 }))
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://classy-chat-frontend.vercel.app");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Credentials", "true");
+const allowCors = fn => async (req, res) => {
+    res.setHeader('Access-Control-Allow-Credentials', true)
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    // another common pattern
+    // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    )
     if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
+        res.status(200).end()
+        return
     }
+    return await fn(req, res)
+}
+
+// Apply allowCors as middleware
+app.use(allowCors((req, res, next) => {
     next();
-});
+}));
 
 app.use(cookiesParser())
 
 const PORT = process.env.PORT || 8080
 
-app.get('/',(request,response)=>{
+app.get('/', (request, response) => {
     response.json({
-        message : "Server running at " + PORT
+        message: "Server running at " + PORT
     })
 })
 
-//api endpoints
-app.use('/api',router)
+// api endpoints
+app.use('/api', router)
 
-connectDB().then(()=>{
-    server.listen(PORT,()=>{
+connectDB().then(() => {
+    server.listen(PORT, () => {
         console.log("server running at " + PORT)
     })
 })

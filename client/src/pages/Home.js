@@ -24,10 +24,10 @@ const Home = () => {
 
         console.log('response', response.data?.data)
         dispatch(setUser(response.data.data))
-        // if(response.data.data.logout){
-        //     dispatch(logout())
-        //     navigate("/email")
-        // }
+        if(response.data.data.logout){
+            dispatch(logout())
+            navigate("/email")
+        }
         console.log("current user Details",response)
     } catch (error) {
         console.log("error",error)

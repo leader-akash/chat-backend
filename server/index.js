@@ -12,14 +12,15 @@ const allowCorsError = require('./cors')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.use(allowCorsError)
 
-// app.use(cors({
-//     origin: ["https://classy-chat-frontend.vercel.app"],
-//     methods: ["POST", "GET", "PUT"],
-//     credentials: true,
-//     allowedHeaders: 'Content-Type,Authorization',
-// }))
+app.use(cors({
+    origin: ["https://classy-chat-frontend.vercel.app"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    allowedHeaders: 'Content-Type,Authorization',
+}))
+
+// app.use(allowCorsError)
 
 app.use(cookiesParser())
 

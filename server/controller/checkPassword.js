@@ -24,12 +24,12 @@ async function checkPassword(request,response){
         const token = await jwt.sign(tokenData,process.env.JWT_SECREAT_KEY,{ expiresIn : '15d'})
 
         console.log('Setting cookie with token:', token);
-        
+
         const cookieOptions = {
             maxAge: 15*24*60*60*100, // miliseconsa format
             httpOnly: true, // prevents xss attacks cross-site scripting attacks
             sameSite: "strict", // CSRF attacks cross-site request forgery attacks
-            secure : process.env.NODE_ENV !== 'development'
+            secure : process.env.NODE_ENV === 'production'
         }
 
         return response.cookie('token',token,cookieOptions).status(200).json({

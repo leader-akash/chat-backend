@@ -21,10 +21,12 @@ async function checkPassword(request,response){
             id : user._id,
             email : user.email 
         }
-        const token = await jwt.sign(tokenData,process.env.JWT_SECREAT_KEY,{ expiresIn : '1d'})
+        const token = await jwt.sign(tokenData,process.env.JWT_SECREAT_KEY,{ expiresIn : '15d'})
 
         const cookieOptions = {
-            http : true,
+            maxAge: 15*24*60*60*100, // miliseconsa format
+            httpOnly: true, // prevents xss attacks cross-site scripting attacks
+            sameSite: "strict", // CSRF attacks cross-site request forgery attacks
             secure : true
         }
 

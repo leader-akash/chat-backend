@@ -30,8 +30,8 @@ app.use(express.urlencoded({ extended: true }))
 //   })
 
 app.use(cors({
-    origin : "*",
-    // credentials : true
+    origin : process.env.FRONTEND_URL,
+    credentials : true
 }))
 
 const PORT = process.env.PORT || 8080

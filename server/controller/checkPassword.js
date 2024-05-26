@@ -30,8 +30,8 @@ async function checkPassword(request,response){
             httpOnly: true, // prevents xss attacks cross-site scripting attacks
             // sameSite: "strict", // CSRF attacks cross-site request forgery attacks
             // secure : process.env.NODE_ENV === 'production'
-            secure: true, // Ensures the cookie is only sent over HTTPS
-            sameSite: 'None' // Allows the cookie to be sent in cross-origin requests
+            secure: process.env.NODE_ENV === 'production', // Ensures the cookie is only sent over HTTPS
+            sameSite: 'strict' // Allows the cookie to be sent in cross-origin requests
         }
 
         return response.cookie('token',token,cookieOptions).status(200).json({

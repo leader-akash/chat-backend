@@ -28,8 +28,10 @@ async function checkPassword(request,response){
         const cookieOptions = {
             maxAge: 15*24*60*60*100, // miliseconsa format
             httpOnly: true, // prevents xss attacks cross-site scripting attacks
-            sameSite: "strict", // CSRF attacks cross-site request forgery attacks
-            secure : process.env.NODE_ENV === 'production'
+            // sameSite: "strict", // CSRF attacks cross-site request forgery attacks
+            // secure : process.env.NODE_ENV === 'production'
+            secure: true, // Ensures the cookie is only sent over HTTPS
+            sameSite: 'None' // Allows the cookie to be sent in cross-origin requests
         }
 
         return response.cookie('token',token,cookieOptions).status(200).json({

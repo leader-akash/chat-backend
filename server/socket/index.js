@@ -20,7 +20,6 @@ const io = new Server(server, {
     cors:{
         origin: "*",
         methods: ['GET', 'POST'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true
     }
   })

@@ -13,7 +13,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
     cors:{
-        origin: "*",
+        origin: [ process.env.FRONTEND_URL,'http://localhost:3000' ],
         methods: ['GET', 'POST'],
         credentials: true
     }
@@ -34,9 +34,10 @@ io.on('connection',async(socket)=>{
     const user = await getUserDetailsFromToken(token)
 
     //create a room
+    if(user?._id){
     socket.join(user?._id.toString())
     onlineUser.add(user?._id?.toString())
-
+}
     io.emit('onlineUser',Array.from(onlineUser))
 
     socket.on('message-page',async(userId)=>{

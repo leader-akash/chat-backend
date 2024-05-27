@@ -8,11 +8,6 @@ const getConversation = require('../helpers/getConversation')
 
 const app = express()
 
-app.use(cors({
-    origin: [process.env.FRONTEND_URL,'http://localhost:3000'], // Allow only your frontend application
-    credentials: true  // Allow cookies and other credentials to be included in requests
-}));
-
 /***socket connection */
 const server = http.createServer(app)
 
